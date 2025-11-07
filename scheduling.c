@@ -150,11 +150,58 @@ void fcfs(struct Process p[], int n) {
     printProcessTable(p, n, 0);
     printAverages(p, n);
 }
+
 void sjf_non_preemptive(struct Process p[], int n)
 {
-    ;
-}
+    sortByArrival(p, n);
 
+    int time = 0;
+    int best;
+
+    for (int i = 0; i < n; i++) {
+
+        if (time < p[i].arrival_time)
+            time = p[i].arrival_time;
+
+        best = i; 
+
+        for (int j = i + 1; j < n; j++) {
+
+            if (p[j].arrival_time <= time + p[i].burst_time) {
+
+                if (p[j].burst_time < p[best].burst_time ||
+                   (p[j].burst_time == p[best].burst_time &&
+                   (p[j].arrival_time < p[best].arrival_time ||
+                   (p[j].arrival_time == p[best].arrival_time &&
+                    p[j].pid < p[best].pid))))
+                {
+                    best = j;
+                }
+
+            } else {
+                break;
+            }
+        }
+
+        
+        if (best != i) {
+            struct Process temp = p[i];
+            p[i] = p[best];
+            p[best] = temp;
+        }
+
+        // Schedule p[i]
+        p[i].start_time = time;
+        time += p[i].burst_time;
+        p[i].completion_time = time;
+        p[i].turnaround_time = p[i].completion_time - p[i].arrival_time;
+        p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
+    }
+
+    printGanttChart(p, n);
+    printProcessTable(p, n, 0);
+    printAverages(p, n);
+}
 void priority_scheduling(struct Process p[], int n)
 {
     ;
