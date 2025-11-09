@@ -9,13 +9,15 @@ int main() {
 
     struct Process p[n];
 
-    printf("\nEnter Arrival Time and Burst Time for each process:\n");
+    printf("\nEnter Arrival Time and Burst Time and Priority for each process:\n");
     for (int i = 0; i < n; i++) {
         p[i].pid = i + 1;
         printf("P%d Arrival Time: ", i + 1);
         scanf("%d", &p[i].arrival_time);
         printf("P%d Burst Time: ", i + 1);
         scanf("%d", &p[i].burst_time);
+        printf("P%d Priority:", i+1);
+        scanf("%d",&p[i].priority);
     }
 
     printf("\nEnter Time Quantum (for RR): ");
