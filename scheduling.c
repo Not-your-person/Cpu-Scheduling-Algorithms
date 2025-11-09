@@ -202,9 +202,53 @@ void sjf_non_preemptive(struct Process p[], int n)
     printProcessTable(p, n, 0);
     printAverages(p, n);
 }
-void priority_scheduling(struct Process p[], int n)
+void priority_scheduling(struct Process p[], int n)//smaller number means higher priority
 {
-    ;
+    sortByArrival(p, n);
+
+    int time = 0;
+    int imp;
+
+    for (int i = 0; i < n; i++) {
+
+        if (time < p[i].arrival_time)
+            time = p[i].arrival_time;
+
+        imp = i; 
+
+        for (int j = i + 1; j < n; j++) {
+
+            if (p[j].arrival_time <= time) {
+
+                if (p[j].priority < p[imp].priority ||
+                   (p[j].priority == p[imp].priority &&
+                   (p[j].arrival_time < p[imp].arrival_time ||
+                   (p[j].arrival_time == p[imp].arrival_time &&
+                    p[j].pid < p[imp].pid))))
+                {
+                    imp = j;
+                }
+
+            } else {
+                break;
+            }
+        }
+
+        
+        if (imp != i) {
+            struct Process temp = p[i];
+            p[i] = p[imp];
+            p[imp] = temp;
+        }
+        
+        time += p[i].burst_time;
+        p[i].completion_time = time;
+        p[i].turnaround_time = p[i].completion_time - p[i].arrival_time;
+        p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
+    }
+    printGanttChart(p,n);
+    printProcessTable(p,n,0);
+    printAverages(p,n);
 }
 void round_robin(struct Process p[], int n, int tq)
 {
