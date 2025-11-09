@@ -252,6 +252,59 @@ void priority_scheduling(struct Process p[], int n)//smaller number means higher
 }
 void round_robin(struct Process p[], int n, int tq)
 {
+    int rem_bt[n];
+    for (int i = 0; i < n; i++) {
+        rem_bt[i] = p[i].burst_time;
+    }
 
-    ;
+    int t = 0;
+    int done;
+
+    struct Process gantt[1000];
+    int count = 0;
+
+    while (1) {
+        done = 1;
+
+        for (int i = 0; i < n; i++) {
+            if (p[i].arrival_time <= t && rem_bt[i] > 0) {
+                done = 0;
+                gantt[count].pid = p[i].pid;
+                gantt[count].arrival_time = t;
+
+                if (rem_bt[i] > tq) {
+                    t += tq;
+                    rem_bt[i] -= tq;
+                } else {
+                    t += rem_bt[i];
+                    p[i].completion_time = t;
+                    p[i].turnaround_time = t - p[i].arrival_time;
+                    p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
+                    rem_bt[i] = 0;
+                }
+
+                gantt[count].completion_time = t;
+                count++;
+            }
+        }
+
+        if (done == 1)
+            break;
+
+
+        int ready = 0;
+        for (int i = 0; i < n; i++) {
+            if (p[i].arrival_time <= t && rem_bt[i] > 0) {
+                ready = 1;
+                break;
+            }
+        }
+        if (!ready) {
+            t++;
+        }
+    }
+
+    printGanttChart(gantt, count);
+    printProcessTable(p, n, 0);
+    printAverages(p, n);
 }
