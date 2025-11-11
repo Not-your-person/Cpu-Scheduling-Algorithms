@@ -94,3 +94,54 @@ Example Output (SJF)
 | **SJF**         | Non-preemptive   | Low average waiting time | Can cause starvation    |
 | **Priority**    | Pre/Non-preempt. | Flexible, priority-based | Low priority starvation |
 | **Round Robin** | Preemptive       | Fair, responsive         | Context switch overhead |
+
+---
+# Running the Code (For 🟧 emoji for gantt chart)
+## On Windows
+
+Windows consoles (like CMD or old PowerShell) use legacy encodings by default, so emojis may appear as gibberish (e.g., ðŸŸ§).
+
+Fix:
+```
+Enable UTF-8 mode:
+
+chcp 65001
+```
+
+Use a font that supports emojis (e.g., Cascadia Code, Segoe UI Emoji, or Noto Color Emoji).
+
+Run the program in Windows Terminal (recommended).
+```
+gcc emoji.c -o emoji.exe
+./emoji.exe
+```
+## On macOS
+
+macOS terminals use UTF-8 by default, so it should work out of the box.
+
+If emojis still display incorrectly:
+
+Make sure your file is saved as UTF-8.
+
+In VS Code → bottom-right corner → "UTF-8".
+
+Force UTF-8 locale in the terminal:
+```
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
+
+Run:
+```
+gcc emoji.c -o emoji
+./emoji
+```
+## On Linux
+
+Most modern Linux terminals already use UTF-8.
+If needed:
+```
+export LANG=en_US.UTF-8
+gcc emoji.c -o emoji
+./emoji
+```
