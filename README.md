@@ -2,11 +2,10 @@
 
 A simple and educational simulation of **CPU Scheduling Algorithms** written in **C**.  
 This project helps visualize how different scheduling strategies work in operating systems.
-
+this project was made in sem 1 of 2025-26 under Palash das sir guidance.
 ---
 
 ## 🚀 Features
-
 - Implements four major CPU scheduling algorithms:
   1. **FCFS (First-Come, First-Served)**
   2. **SJF (Shortest Job First)**
